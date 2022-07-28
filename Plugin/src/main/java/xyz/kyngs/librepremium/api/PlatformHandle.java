@@ -20,6 +20,8 @@ public interface PlatformHandle<P, S> {
 
     UUID getUUIDForPlayer(P player);
 
+    String getPlayerName(P player);
+
     CompletableFuture<Throwable> movePlayer(P player, S to);
 
     void kick(P player, Component reason);

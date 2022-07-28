@@ -78,6 +78,10 @@ public class BungeeCordPlatformHandle implements PlatformHandle<ProxiedPlayer, S
         return player.getAddress().getAddress().getHostAddress();
     }
 
+    public String getPlayerName(ProxiedPlayer player) {
+        return player.getName();
+    }
+
     @Override
     public ServerPing ping(ServerInfo server) {
         // I hate this...

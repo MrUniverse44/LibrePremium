@@ -32,18 +32,27 @@ public class AuthenticListeners<Plugin extends AuthenticLibrePremium<P, S>, P, S
 
     protected void onPostLogin(P player) {
         var uuid = platformHandle.getUUIDForPlayer(player);
+        var current = platformHandle.getPlayerName(player);
+
         if (plugin.fromFloodgate(uuid)) return;
 
         var user = plugin.getDatabaseProvider().getByUUID(uuid);
         var sessionTime = plugin.getConfiguration().getSessionTimeout();
 
-        if (user.autoLoginEnabled()) {
+        user.setUsername(current);
+
+        if (user.autoLoginEnabled() && user.isSameUsername()) {
             plugin.getPlatformHandle().getAudienceForPlayer(player).sendMessage(plugin.getMessages().getMessage("info-premium-logged-in"));
             plugin.getEventProvider().fire(AuthenticatedEvent.class, new AuthenticAuthenticatedEvent<>(user, player, plugin, AuthenticatedEvent.AuthenticationReason.PREMIUM));
         } else if (sessionTime != null && user.getLastAuthentication() != null && platformHandle.getIP(player).equals(user.getIp()) && user.getLastAuthentication().toLocalDateTime().plus(sessionTime).isAfter(LocalDateTime.now())) {
             plugin.getPlatformHandle().getAudienceForPlayer(player).sendMessage(plugin.getMessages().getMessage("info-session-logged-in"));
             plugin.getEventProvider().fire(AuthenticatedEvent.class, new AuthenticAuthenticatedEvent<>(user, player, plugin, AuthenticatedEvent.AuthenticationReason.SESSION));
         } else {
+            if (user.autoLoginEnabled()) {
+                plugin.getPlatformHandle().getAudienceForPlayer(player).sendMessage(plugin.getMessages().getMessage("username-issue-detected"));
+                user.setPremiumUUID(null);
+                plugin.getDatabaseProvider().updateUser(user);
+            }
             plugin.getAuthorizationProvider().startTracking(user, player);
         }
 

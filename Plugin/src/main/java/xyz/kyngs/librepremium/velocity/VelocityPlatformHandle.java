@@ -84,6 +84,10 @@ public class VelocityPlatformHandle implements PlatformHandle<Player, Registered
         }
     }
 
+    public String getPlayerName(Player player) {
+        return player.getUsername();
+    }
+
     @Override
     public Collection<RegisteredServer> getServers() {
         return plugin.getServer().getAllServers();

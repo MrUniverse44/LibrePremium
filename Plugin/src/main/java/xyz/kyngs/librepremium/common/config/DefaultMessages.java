@@ -482,6 +482,13 @@ public class DefaultMessages {
             ConfigurateHelper::getString
     );
 
+    public static final ConfigurationKey<String> USERNAME_ISSUE = new ConfigurationKey<>(
+            "username-issue-detected",
+            "&cThe username is different, is not the same name of your old last-nickname, the auto-login has been disabled",
+            "This message appear when the name of the player has changed and the last-nickname of the player in the server is different",
+            ConfigurateHelper::getString
+    );
+
     public static final ConfigurationKey<String> PROMPT_CONFIRM = new ConfigurationKey<>(
             "prompt-confirm",
             "You are about to enable premium autologin, please take note, that you &4WILL NOT&r be able to connect to your account from cracked client. You can turn this off later by using /cracked. To confirm this action, you have 5 minutes to run /confirmpremium",

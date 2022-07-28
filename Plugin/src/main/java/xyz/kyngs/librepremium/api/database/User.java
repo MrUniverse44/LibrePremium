@@ -15,6 +15,7 @@ public class User {
 
     private final UUID uuid;
     private UUID premiumUUID;
+    private String username;
     private HashedPassword hashedPassword;
     private String lastNickname;
     private Timestamp joinDate;
@@ -49,6 +50,22 @@ public class User {
 
     public void setJoinDate(Timestamp joinDate) {
         this.joinDate = joinDate;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public boolean isSameUsername() {
+        if (lastNickname != null && username != null) {
+            return lastNickname.equals(username);
+        } else {
+            return true;
+        }
     }
 
     public Timestamp getLastSeen() {
