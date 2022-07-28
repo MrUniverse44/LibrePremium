@@ -63,7 +63,18 @@ public class AuthenticAuthorizationProvider<P, S> extends AuthenticHandler<P, S>
 
         plugin.cancelOnExit(plugin.delay(() -> {
             if (!unAuthorized.containsKey(player)) return;
-            sendInfoMessage(user.isRegistered(), audience);
+
+            if (user.isRegistered()) {
+                var secret = user.getSecret();
+
+                if (secret != null) {
+                    sendInfoMessage(true, true, audience);
+                } else {
+                    sendInfoMessage(true, audience);
+                }
+            } else {
+                sendInfoMessage(false, audience);
+            }
         }, 250), player);
 
         var limit = plugin.getConfiguration().secondsToAuthorize();
@@ -77,6 +88,19 @@ public class AuthenticAuthorizationProvider<P, S> extends AuthenticHandler<P, S>
     }
 
     private void sendInfoMessage(boolean registered, Audience audience) {
+        sendInfoMessage(registered, false, audience);
+    }
+
+    private void sendInfoMessage(boolean registered, boolean secret, Audience audience) {
+        if (registered) {
+            if (secret) {
+                audience.sendMessage(plugin.getMessages().getMessage("prompt-login-code"));
+            } else {
+                audience.sendMessage(plugin.getMessages().getMessage("prompt-login"));
+            }
+        } else {
+            audience.sendMessage(plugin.getMessages().getMessage("prompt-register"));
+        }
         audience.sendMessage(plugin.getMessages().getMessage(registered ? "prompt-login" : "prompt-register"));
         if (!plugin.getConfiguration().useTitles()) return;
         var toRefresh = plugin.getConfiguration().milliSecondsToRefreshNotification();

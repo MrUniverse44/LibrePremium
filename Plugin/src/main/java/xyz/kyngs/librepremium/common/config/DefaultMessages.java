@@ -470,8 +470,15 @@ public class DefaultMessages {
 
     public static final ConfigurationKey<String> PROMPT_LOGIN = new ConfigurationKey<>(
             "prompt-login",
-            "Please login using: &e/login &b<password> [2fa_code]",
+            "Please login using: &e/login &b<password>",
             "This message is displayed when the player is prompted to login.",
+            ConfigurateHelper::getString
+    );
+
+    public static final ConfigurationKey<String> PROMPT_LOGIN_CODE = new ConfigurationKey<>(
+            "prompt-login-code",
+            "Please login using: &e/login &b<password> <2fa_code>",
+            "This message is displayed when the player is prompted to login and the player has a 2FA Code.",
             ConfigurateHelper::getString
     );
 
