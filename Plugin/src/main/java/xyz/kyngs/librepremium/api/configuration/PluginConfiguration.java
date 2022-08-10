@@ -85,4 +85,7 @@ public interface PluginConfiguration {
 
     boolean pingServers();
 
+    boolean rememberLastServer();
+
+    int maxLifeTime();
 }

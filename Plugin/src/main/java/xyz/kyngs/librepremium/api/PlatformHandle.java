@@ -40,4 +40,8 @@ public interface PlatformHandle<P, S> {
 
     String getServerName(S server);
 
+    int getConnectedPlayers(S server);
+
+    String getPlayersServerName(P player);
+
 }

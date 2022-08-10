@@ -15,7 +15,8 @@ public class DefaultConfiguration {
             List.of(
                     "login",
                     "register",
-                    "2fa"
+                    "2fa",
+                    "2faconfirm"
             ),
             "Commands that are allowed while the user is not authorized.",
             ConfigurateHelper::getStringList
@@ -265,4 +266,17 @@ public class DefaultConfiguration {
             ConfigurateHelper::getBoolean
     );
 
+    public static final ConfigurationKey<Boolean> REMEMBER_LAST_SERVER = new ConfigurationKey<>(
+            "remember-last-server",
+            false,
+            "Should we remember the last server a player was on? This is not recommended for large networks.",
+            ConfigurateHelper::getBoolean
+    );
+
+    public static final ConfigurationKey<Integer> MAX_LIFE_TIME = new ConfigurationKey<>(
+            "database.max-life-time",
+            600000,
+            "The maximum lifetime of a database connection in milliseconds. Don't touch this if you don't know what you're doing.",
+            ConfigurateHelper::getInt
+    );
 }

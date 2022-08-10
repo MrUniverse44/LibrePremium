@@ -14,12 +14,14 @@ public class AuthenticServerPinger<S> implements ServerPinger<S> {
 
     public AuthenticServerPinger(AuthenticLibrePremium<?, S> plugin) {
         this.pingCache = Caffeine.newBuilder()
-                .refreshAfterWrite(15, TimeUnit.SECONDS)
+                .refreshAfterWrite(10, TimeUnit.SECONDS)
                 .build(server -> Optional.ofNullable(plugin.getPlatformHandle().ping(server)));
 
         var handle = plugin.getPlatformHandle();
         handle.getServers().parallelStream()
                 .filter(server -> {
+                    if (plugin.getConfiguration().rememberLastServer()) return true;
+
                     var name = handle.getServerName(server);
 
                     return plugin.getConfiguration().getLimbo().contains(name) || plugin.getConfiguration().getPassThrough().contains(name);
